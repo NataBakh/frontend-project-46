@@ -1,6 +1,9 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/NataBakh/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/NataBakh/frontend-project-46/actions)
 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=NataBakh_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=NataBakh_frontend-project-46)
+
+
 **Описание**
 
 Вычислитель отличий – программа, которая определяет разницу между двумя структурами данных. Это популярная задача, для которой существуют онлайн-сервисы вроде jsondiff; похожий механизм используется при выводе тестов и при отслеживании изменений в конфигурационных файлах.

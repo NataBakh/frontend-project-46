@@ -1,0 +1,29 @@
+name: my-check
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Клонируем репозиторий
+      - uses: actions/checkout@v4
+      # Устанавливаем Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm' # ускоряет повторные сборки
+      # Ставим зависимости
+      - run: npm install
+      # Запуск lint
+      - name: run lint
+        run: make lint
+      # Запуск тестов
+      - name: run tests
+        run: make test
+ # Запуск тестов с генерацией отчета coverage/lcov.info
+      - name: Run tests with coverage
+        run: npm test -- --coverage 
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
