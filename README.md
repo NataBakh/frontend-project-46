@@ -1,8 +1,9 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/NataBakh/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/NataBakh/frontend-project-46/actions)
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=NataBakh_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=NataBakh_frontend-project-46)
+[![my-check](https://github.com/NataBakh/frontend-project-46/actions/workflows/myCheck.yml/badge.svg?branch=main)](https://github.com/NataBakh/frontend-project-46/actions/workflows/myCheck.yml)
 
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=NataBakh_frontend-project-46)
 
 **Описание**
 

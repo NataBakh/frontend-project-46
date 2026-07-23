@@ -1,5 +1,10 @@
 name: my-check
-on: push
+on: 
+  push:
+    branches:
+      - main
+pull_request:
+  types: [opened, synchronize, reopened]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,13 +22,19 @@ jobs:
       - name: run lint
         run: make lint
       # Запуск тестов
-      - name: run tests
-        run: make test
- # Запуск тестов с генерацией отчета coverage/lcov.info
-      - name: Run tests with coverage
-        run: npm test -- --coverage 
+      # - name: run tests
+      #   run: make test
+      # Запуск тестов c покрытием
+      - name: test and coverage
+        run: make test-coverage
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@6
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v3
+        uses: SonarSource/sonarqube-scan-action@7
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
