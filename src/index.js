@@ -6,13 +6,13 @@ import _ from 'lodash'
 const gendiff = (filepath1, filepath2) => {
   const content1 = fs.readFileSync(path.resolve(filepath1), 'utf-8')
   const content2 = fs.readFileSync(path.resolve(filepath2), 'utf-8')
-  
+
   const parsedData1 = parse(content1)
   const parsedData2 = parse(content2)
- 
-  const keys1 = Object.keys(parsedData1);
-  const keys2 = Object.keys(parsedData2);
-  const sortedKeys = _.sortBy(_.union(keys1, keys2));
+
+  const keys1 = Object.keys(parsedData1)
+  const keys2 = Object.keys(parsedData2)
+  const sortedKeys = _.sortBy(_.union(keys1, keys2))
 
 const stringify = (value) => {
   if (_.isObject(value)) {
