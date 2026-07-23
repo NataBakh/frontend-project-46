@@ -14,12 +14,12 @@ const gendiff = (filepath1, filepath2) => {
   const keys2 = Object.keys(parsedData2)
   const sortedKeys = _.sortBy(_.union(keys1, keys2))
 
-const stringify = (value) => {
-  if (_.isObject(value)) {
-    return JSON.stringify(value); // Или кастомная функция для красивого вывода объектов
+  const stringify = (value) => {
+    if (_.isObject(value)) {
+      return JSON.stringify(value) // Или кастомная функция для красивого вывода объектов
+    }
+    return String(value)
   }
-  return String(value)
-}
 
   const result = sortedKeys.flatMap((key) => {
     if (!_.has(parsedData2, key)) {
@@ -31,9 +31,9 @@ const stringify = (value) => {
     if (parsedData1[key] === parsedData2[key]) {
       return `    ${key}: ${stringify(parsedData1[key])}`
     }
-     return [
+    return [
       `  - ${key}: ${stringify(parsedData1[key])}`,
-      `  + ${key}: ${stringify(parsedData2[key])}`
+      `  + ${key}: ${stringify(parsedData2[key])}`,
     ]
   })
 
