@@ -6,9 +6,8 @@ import parseFile from './parsers.js'
 const supportedFormats = ['stylish', 'plain', 'json']
 
 const gendiff = (filepath1, filepath2, formatName = 'stylish') => {
-
-if (!supportedFormats.includes(formatName)) {
-    throw new Error(`Unknown output format: ${formatName}`);
+  if (!supportedFormats.includes(formatName)) {
+    throw new Error(`Unknown output format: ${formatName}`)
   }
 
   const content1 = fs.readFileSync(path.resolve(filepath1), 'utf-8')
@@ -46,7 +45,6 @@ if (!supportedFormats.includes(formatName)) {
       `  + ${key}: ${stringify(parsedData2[key])}`,
     ]
   })
-
   return `{\n${result.join('\n')}\n}`
 }
 
