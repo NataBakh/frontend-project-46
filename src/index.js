@@ -1,14 +1,24 @@
-import path from 'path'
-import parse from './parser.js'
 import fs from 'fs'
+import path from 'path'
 import _ from 'lodash'
+import parseFile from './parsers.js'
 
-const gendiff = (filepath1, filepath2) => {
+const supportedFormats = ['stylish', 'plain', 'json']
+
+const gendiff = (filepath1, filepath2, formatName = 'stylish') => {
+
+if (!supportedFormats.includes(formatName)) {
+    throw new Error(`Unknown output format: ${formatName}`);
+  }
+
   const content1 = fs.readFileSync(path.resolve(filepath1), 'utf-8')
   const content2 = fs.readFileSync(path.resolve(filepath2), 'utf-8')
 
-  const parsedData1 = parse(content1)
-  const parsedData2 = parse(content2)
+  const format1 = path.extname(filepath1).slice(1)
+  const format2 = path.extname(filepath2).slice(1)
+
+  const parsedData1 = parseFile(content1, format1)
+  const parsedData2 = parseFile(content2, format2)
 
   const keys1 = Object.keys(parsedData1)
   const keys2 = Object.keys(parsedData2)
@@ -16,7 +26,7 @@ const gendiff = (filepath1, filepath2) => {
 
   const stringify = (value) => {
     if (_.isObject(value)) {
-      return JSON.stringify(value) // Или кастомная функция для красивого вывода объектов
+      return JSON.stringify(value)
     }
     return String(value)
   }
@@ -28,7 +38,7 @@ const gendiff = (filepath1, filepath2) => {
     if (!_.has(parsedData1, key)) {
       return `  + ${key}: ${stringify(parsedData2[key])}`
     }
-    if (parsedData1[key] === parsedData2[key]) {
+    if (_.isEqual(parsedData1[key], parsedData2[key])) {
       return `    ${key}: ${stringify(parsedData1[key])}`
     }
     return [

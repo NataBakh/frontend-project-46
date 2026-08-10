@@ -8,9 +8,9 @@ program
   .version('0.0.1', '-V, --version', 'output the version number')
   .arguments('<filepath1> <filepath2>')
   .helpOption('-h, --help', 'display help for command')
-  .option('-f, --format <type>', 'output format')
+  .option('-f, --format <type>', 'output format', 'stylish')
   .action ((filepath1, filepath2, options) => {
-    console.log(gendiff(filepath1, filepath2, options))
+    console.log(gendiff(filepath1, filepath2, options.format))
   })
 
 program.parse()
