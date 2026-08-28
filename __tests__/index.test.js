@@ -27,6 +27,7 @@ describe('Тестирование gendiff', () => {
       gendiff(file1, file2, 'qwerty')
     }).toThrow(Error)
   })
+
   test('Положительный: json-файлы одинаковые — выводит структуру без изменений', () => {
     const result = gendiff(getFixturePath('file1.json'), getFixturePath('file1.json'))
     const expected = readExpected('ResultFileNotDiff.txt')

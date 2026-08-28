@@ -53,4 +53,7 @@ gendiff filepath1.json filepath2.json
     }
 }
 ```
+**Пример работы пакета - сравнение файлов json**
 [![asciicast](https://asciinema.org/a/dAg6IgzCYUKDkdkA.svg)](https://asciinema.org/a/dAg6IgzCYUKDkdkA)
+**Пример работы пакета - сравнение файлов yaml**
+[![asciicast](https://asciinema.org/a/1lcGMWcNBaGlo96w.svg)](https://asciinema.org/a/1lcGMWcNBaGlo96w)
