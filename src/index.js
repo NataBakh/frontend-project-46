@@ -1,51 +1,33 @@
 import fs from 'fs'
 import path from 'path'
-import _ from 'lodash'
 import parseFile from './parsers.js'
+import buildDiffTree from './buildDiffTree.js' // Логика сравнения ушла сюда
+import format from './formatters/index.js'
 
-const supportedFormats = ['stylish', 'plain', 'json']
-
-const gendiff = (filepath1, filepath2, formatName = 'stylish') => {
-  if (!supportedFormats.includes(formatName)) {
-    throw new Error(`Unknown output format: ${formatName}`)
-  }
-
-  const content1 = fs.readFileSync(path.resolve(filepath1), 'utf-8')
-  const content2 = fs.readFileSync(path.resolve(filepath2), 'utf-8')
-
-  const format1 = path.extname(filepath1).slice(1)
-  const format2 = path.extname(filepath2).slice(1)
-
-  const parsedData1 = parseFile(content1, format1)
-  const parsedData2 = parseFile(content2, format2)
-
-  const keys1 = Object.keys(parsedData1)
-  const keys2 = Object.keys(parsedData2)
-  const sortedKeys = _.sortBy(_.union(keys1, keys2))
-
-  const stringify = (value) => {
-    if (_.isObject(value)) {
-      return JSON.stringify(value)
-    }
-    return String(value)
-  }
-
-  const result = sortedKeys.flatMap((key) => {
-    if (!_.has(parsedData2, key)) {
-      return `  - ${key}: ${stringify(parsedData1[key])}`
-    }
-    if (!_.has(parsedData1, key)) {
-      return `  + ${key}: ${stringify(parsedData2[key])}`
-    }
-    if (_.isEqual(parsedData1[key], parsedData2[key])) {
-      return `    ${key}: ${stringify(parsedData1[key])}`
-    }
-    return [
-      `  - ${key}: ${stringify(parsedData1[key])}`,
-      `  + ${key}: ${stringify(parsedData2[key])}`,
-    ]
-  })
-  return `{\n${result.join('\n')}\n}`
+const readFile = (filePath) => {
+  const absolutePath = path.resolve(process.cwd(), filePath)
+  return fs.readFileSync(absolutePath, 'utf-8')
 }
 
+const getFormat = (filePath) => {
+  // path.extname('file.json') вернет '.json', мы отрезаем точку через slice(1)
+  return path.extname(filePath).slice(1)
+}
+
+const gendiff = (filePath1, filePath2, formatName = 'stylish') => {
+  const fileContent1 = readFile(filePath1)
+  const fileContent2 = readFile(filePath2)
+  const format1 = getFormat(filePath1)
+  const format2 = getFormat(filePath2)
+
+  // 1. Читаем и парсим файлы в обычные JS-объекты
+  const data1 = parseFile(fileContent1, format1)
+  const data2 = parseFile(fileContent2, format2)
+
+  // 2. Строим дерево различий (уже умеет работать с вложенностью рекурсивно)
+  const diffTree = buildDiffTree(data1, data2)
+
+  // 3. Форматируем результат в нужный вид
+  return format(diffTree, formatName)
+}
 export default gendiff

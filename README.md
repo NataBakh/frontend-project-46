@@ -44,12 +44,24 @@ Property 'group2' was removed
 gendiff filepath1.json filepath2.json
 
 {
-  + follow: false
-    setting1: Value 1
-  - setting2: 200
-  - setting3: true
-  + setting3: {
-        key: value
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
     }
 }
 ```
@@ -57,3 +69,5 @@ gendiff filepath1.json filepath2.json
 [![asciicast](https://asciinema.org/a/dAg6IgzCYUKDkdkA.svg)](https://asciinema.org/a/dAg6IgzCYUKDkdkA)
 **Пример работы пакета - сравнение файлов yaml**
 [![asciicast](https://asciinema.org/a/1lcGMWcNBaGlo96w.svg)](https://asciinema.org/a/1lcGMWcNBaGlo96w)
+**Пример работы пакета - сравнение файлов с вложенной структурой (рекурсивное сравнение)**
+[![asciicast](https://asciinema.org/a/4u0J56uFHVdhz7qb.svg)](https://asciinema.org/a/4u0J56uFHVdhz7qb)
